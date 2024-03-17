@@ -10,7 +10,7 @@ pipeline {
             steps {
                 script {
                     if (params.application_url == 'http://localhost:80') {
-                        sh "sudo docker run --rm --name vulnerable_app -d -p 80:80 vulnerables/web-dvwa"
+                        sh " docker run --rm --name vulnerable_app -d -p 80:80 vulnerables/web-dvwa"
                     } else {
                         echo "Skipping setup stage as application_url is not 'http://localhost:80'"
                     }

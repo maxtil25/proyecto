@@ -17,7 +17,7 @@ pipeline {
                 archiveArtifacts artifacts: 'zap/report.json', onlyIfSuccessful: false
 
                 // Publicar el informe como un artefacto Jenkins
-                publishHTML(reportDir: 'zap', reportFiles: 'report.json', reportName: 'OWASP ZAP Report', keepAll: true)
+                publishHTML(reportDir: 'zap', reportFiles: 'report.json', reportName: 'OWASP ZAP Report', keepAll: true, alwaysLinkToLastBuild: false, allowMissing: false)
             }
         }
     }

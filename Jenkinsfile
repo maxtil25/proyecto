@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Ejecutar el análisis de ZAP contra el sitio web local
-                    sh 'docker exec owasp-zap zap-baseline.py -t http://172.20.0.3/responsive-halloween-website/ -J /zap/report.json'
+                    sh 'sudo docker exec owasp-zap zap-baseline.py -t http://172.20.0.3/responsive-halloween-website/ -J /zap/report.json'
                 }
             }
         }

@@ -1,55 +1,24 @@
 pipeline {
     agent any
-    
-    parameters {
-        string(name: 'application_url', defaultValue: 'http://localhost:80', description: 'URL for ZAP attack')
-    }
-    
+
     stages {
-        stage('Setup') {
+        stage('Ejecutar OWASP ZAP') {
             steps {
                 script {
-                    if (params.application_url == 'http://localhost:80') {
-                        sh " docker run --rm --name vulnerable_app -d -p 80:80 vulnerables/web-dvwa"
-                    } else {
-                        echo "Skipping setup stage as application_url is not 'http://localhost:80'"
-                    }
+                    // Ejecutar el análisis de ZAP contra el sitio web local
+                    sh 'docker exec owasp-zap zap-baseline.py -t http://172.20.0.3/responsive-halloween-website/ -J /zap/report.json'
                 }
             }
         }
-        
-        stage('Test') {
+
+        stage('Publicar informe de OWASP ZAP') {
             steps {
-                dir('/home/ec2-user/ZAP_2.9.0') {
-                    sh "./zap.sh -quickurl ${params.application_url} -quickprogress -quickout ${WORKSPACE}/report.xml -cmd"
-                }
+                // Archivar el informe de OWASP ZAP
+                archiveArtifacts artifacts: 'zap/report.json', onlyIfSuccessful: false
+
+                // Publicar el informe como un artefacto Jenkins
+                publishHTML(target: [reportDir: 'zap', reportFiles: 'report.json', reportName: 'OWASP ZAP Report'], keepAll: true)
             }
-        }
-        
-        stage('Cleanup') {
-            steps {
-                script {
-                    if (params.application_url == 'http://localhost:80') {
-                        sh "sudo docker stop vulnerable_app"
-                    } else {
-                        echo "Skipping cleanup stage as application_url is not 'http://localhost:80'"
-                    }
-                }
-            }
-        }
-    }
-    
-    post {
-        success {
-            archiveArtifacts artifacts: 'report.xml', fingerprint: true
-            publishHTML(target: [
-                allowMissing: false,
-                alwaysLinkToLastBuild: false,
-                reportDir: '',
-                keepAll: true,
-                reportFiles: 'report.xml',
-                reportName: "ZAP Report"
-            ])
         }
     }
 }

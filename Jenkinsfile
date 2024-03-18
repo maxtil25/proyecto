@@ -14,7 +14,7 @@ pipeline {
             steps {
                 sh '''
                 git clone https://github.com/maxtil25/proyecto.git
-                cp -r Dockerfile Jenkinsfile README.md Steps.txt bin dependency-check-report.html dependency-check-report.xml mvnw mvnw.cmd pom.xml src target /usr/share/nginx/html/proyecto
+                cp -r Dockerfile Jenkinsfile README.md Steps.txt bin dependency-check-report.html dependency-check-report.xml mvnw mvnw.cmd pom.xml src target /usr/share/nginx/html/proyecto2
                 '''
             }
         }
@@ -26,13 +26,13 @@ pipeline {
             }
         }
         
-        stage('Montar proyecto en nginx 4') {
+        stage('Montar proyecto en nginx 5') {
             steps {
                 // Crea el directorio si no existe
                 sh "mkdir -p /usr/share/nginx/html/proyecto2"
                 
                 // Copia los archivos HTML, CSS, JavaScript al servidor web
-                sh "cp -r * /usr/share/nginx/html/proyecto "
+                sh "cp -r * /usr/share/nginx/html/proyecto2 "
             }
         }
     }

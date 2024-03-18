@@ -15,10 +15,13 @@ pipeline {
             }
         }
         
-        stage('Montar proyecto en nginx 10') {
+        stage('Montar proyecto en nginx 11') {
             steps {
+                // Crea el directorio si no existe
+                sh "mkdir -p /usr/share/nginx/html/prueba"
+                
                 // Copia los archivos HTML, CSS, JavaScript al servidor web
-                sh "cp -r * /usr/share/nginx/html/responsive-halloween-website "
+                sh "cp -r * /usr/share/nginx/html/ "
             }
         }
     }

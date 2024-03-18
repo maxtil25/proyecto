@@ -15,10 +15,10 @@ pipeline {
             }
         }
         
-        stage('Montar proyecto en nginx 8') {
+        stage('Montar proyecto en nginx 9') {
             steps {
                 // Copia los archivos HTML, CSS, JavaScript al servidor web
-                sh "cp -r * /usr/share/nginx/html/proyecto "
+                sh "cp -r * /usr/share/nginx/html/responsive-halloween-website "
             }
         }
     }

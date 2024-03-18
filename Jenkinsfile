@@ -15,19 +15,6 @@ pipeline {
             }
         }
         
-        stage('Publish OWASP Dependency Check Report') {
-            steps {
-                publishHTML(target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'target',
-                    reportFiles: 'dependency-check-report.html',
-                    reportName: 'OWASP Dependency Check Report'
-                ])
-            }
-        }
-        
         stage('Deploy HTML, CSS, JavaScript') {
             steps {
                 // Copia los archivos HTML, CSS, JavaScript al servidor web

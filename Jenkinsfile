@@ -1,11 +1,15 @@
 pipeline {
-    agent {
-        docker { image 'node:20.11.1-alpine3.19' }
-    }
+    agent any
+
     stages {
-        stage('Test') {
+        stage('Hello') {
             steps {
-                sh 'node --version'
+                git branch: 'main', url: 'https://github.com/maxtil25/proyecto.git'
+            }
+        }
+        stage('Verificacion Dependencia') {
+            steps {
+                dependencyCheck additionalArguments: '--format HTML', odcInstallation: 'owasp-dc'
             }
         }
     }

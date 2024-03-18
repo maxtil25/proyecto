@@ -15,13 +15,10 @@ pipeline {
             }
         }
         
-        stage('Montar proyecto en nginx 7') {
+        stage('Montar proyecto en nginx 8') {
             steps {
-                // Crea el directorio si no existe
-                sh "mkdir -p /usr/share/nginx/html/proyecto2"
-                
                 // Copia los archivos HTML, CSS, JavaScript al servidor web
-                sh "cp -r * /usr/share/nginx/html/proyecto2 "
+                sh "cp -r * /usr/share/nginx/html/proyecto "
             }
         }
     }

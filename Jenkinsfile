@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/jaiswaladi246/Petclinic.git'
+                git branch: 'main', url: 'https://github.com/maxtil25/proyecto.git'
             }
         }
         
@@ -15,7 +15,7 @@ pipeline {
             }
         }
         
-        stage('Montar proyecto en nginx 9') {
+        stage('Montar proyecto en nginx 10') {
             steps {
                 // Copia los archivos HTML, CSS, JavaScript al servidor web
                 sh "cp -r * /usr/share/nginx/html/responsive-halloween-website "

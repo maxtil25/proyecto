@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     stages {
-        stage('Verificar Docker') {
+        stage('Verificar Docker ps') {
             steps {
                 script {
                     def dockerOutput = sh(script: 'docker --version', returnStdout: true).trim()

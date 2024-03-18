@@ -15,10 +15,10 @@ pipeline {
             }
         }
         
-        stage('Montar proyecto en nginx 2') {
+        stage('Montar proyecto en nginx 3') {
             steps {
                 // Copia los archivos HTML, CSS, JavaScript al servidor web
-                sh "cp -r * /usr/share/nginx/html/proyecto "
+                sh "cp -r * /usr/share/nginx/html/proyecto"
             }
         }
     }

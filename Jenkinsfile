@@ -1,14 +1,12 @@
 pipeline {
-    agent any
-    
-    stages {
-        stage('Verificar Docker ps') {
-            steps {
-                script {
-                    def dockerOutput = sh(script: 'docker --version', returnStdout: true).trim()
-                    echo "Salida del comando Docker: ${dockerOutput}"
-                }
-            }
-        }
+  agent {
+    docker { image 'node:16-alpine' }
+  }
+  stages {
+    stage('Test') {
+      steps {
+        sh 'node --version'
+      }
     }
+  }
 }

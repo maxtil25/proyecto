@@ -1,21 +1,10 @@
 pipeline {
     agent any
-    options {
-        skipDefaultCheckout true
-    }
+    
     stages {
-        stage('Run as root') {
-            agent {
-                docker {
-                    image 'nginx' // Reemplaza esto con el nombre de la imagen de Docker que estás utilizando en tu pipeline
-                    args '-u root' // Esto ejecutará el contenedor Docker como usuario root
-                }
-            }
+        stage('Git Checkout') {
             steps {
-                sh '''
-                git clone https://github.com/maxtil25/proyecto.git
-                cp -r Dockerfile Jenkinsfile README.md Steps.txt bin dependency-check-report.html dependency-check-report.xml mvnw mvnw.cmd pom.xml src target /usr/share/nginx/html/proyecto2
-                '''
+                git branch: 'main', url: 'https://github.com/jaiswaladi246/Petclinic.git'
             }
         }
         
@@ -26,7 +15,7 @@ pipeline {
             }
         }
         
-        stage('Montar proyecto en nginx 5') {
+        stage('Montar proyecto en nginx 7') {
             steps {
                 // Crea el directorio si no existe
                 sh "mkdir -p /usr/share/nginx/html/proyecto2"

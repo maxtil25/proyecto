@@ -15,7 +15,7 @@ pipeline {
             }
         }
         
-        stage('Montar proyecto en nginx') {
+        stage('Montar proyecto en nginx 2') {
             steps {
                 // Copia los archivos HTML, CSS, JavaScript al servidor web
                 sh "cp -r * /usr/share/nginx/html/proyecto "

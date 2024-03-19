@@ -14,7 +14,7 @@ pipeline {
                 sh "mkdir -p /usr/share/nginx/html"
                 
                 // Copia todo el contenido del repositorio al directorio de Nginx
-                sh "cp -r proyecto/* /usr/share/nginx/html"
+                sh "cp -r ${WORKSPACE}/* /usr/share/nginx/html"
             }
         }
     }

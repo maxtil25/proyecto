@@ -9,13 +9,7 @@ pipeline {
                     def nginxContainerIP = sh(script: "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx", returnStdout: true).trim()
                     
                     // Ejecutar el análisis de dependencias con OWASP Dependency-Check
-                    dependencyCheck additionalArguments: ''' 
-                        -o ./
-                        -s ./
-                        -f ALL 
-                        --prettyPrint
-                        --proxyurl http://${nginxContainerIP}:80''',
-                        odcInstallation: 'owasp-d'
+                    sh "docker run --rm -v $PWD:/src --workdir /src owasp/dependency-check --scan . --out . --format ALL"
                     
                     // Publicar el informe de Dependency-Check
                     dependencyCheckPublisher pattern: 'dependency-check-report.xml'

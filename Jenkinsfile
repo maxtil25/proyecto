@@ -1,35 +1,38 @@
 pipeline {
-    agent any
-    
-    stages {
-        stage('Análisis de dependencias con OWASP Dependency-Check') {
-            steps {
-                script {
-                    // Obtener la dirección IP del contenedor de Nginx
-                    def nginxContainerIP = sh(script: "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx", returnStdout: true).trim()
-                    
-                    // Ejecutar el análisis de dependencias con OWASP Dependency-Check
-                    sh "docker run --rm -v $PWD:/src --workdir /src owasp/dependency-check --scan . --out . --format ALL"
-                    
-                    // Publicar el informe de Dependency-Check
-                    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-                }
-            }
+  agent any
+  stages {
+    stage('SCM') {
+      steps {
+        script {
+          checkout scm
         }
+      }
     }
-    
-    post {
-        always {
-            // Acciones de limpieza
-            deleteDir() // Elimina el directorio de trabajo del Jenkins
+    stage('SonarQube Analysis') {
+      steps {
+        script {
+          def scannerHome = tool 'sonarqubeScanner';
+          withSonarQubeEnv() {
+            sh "${scannerHome}/bin/sonar-scanner"
+          }
         }
-        success {
-            // Acciones adicionales si el pipeline tiene éxito
-            echo 'El pipeline se ejecutó correctamente'
-        }
-        failure {
-            // Acciones adicionales si el pipeline falla
-            echo 'El pipeline falló'
-        }
+      }
     }
+    stage('Quality Gate') {
+      steps {
+        script {
+          sleep 100 // Wait for 100 seconds
+        }
+        timeout(time: 1, unit: 'HOURS') {
+          waitForQualityGate abortPipeline: true
+        }
+        sh 'echo "Quality gate passed successfully"'
+      }
+    }
+    stage('Deploy') {
+      steps {
+        sh '''echo "Deployment is successful"'''
+      }
+    }
+  }
 }
